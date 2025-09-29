@@ -1,0 +1,43 @@
+-- Criar o banco de dados
+CREATE DATABASE IF NOT EXISTS jogo_db;
+USE jogo_db;
+
+-- Tabela Jogador
+CREATE TABLE Jogador (
+    id_jogador INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    senha_hash VARCHAR(255) NOT NULL,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela Fase
+CREATE TABLE Fase (
+    id_fase INT AUTO_INCREMENT PRIMARY KEY,
+    nome_fase VARCHAR(100) NOT NULL,
+    ordem INT NOT NULL,
+    dificuldade VARCHAR(50) NOT NULL
+);
+
+-- Tabela Progresso
+CREATE TABLE Progresso (
+    id_progresso INT AUTO_INCREMENT PRIMARY KEY,
+    id_jogador INT NOT NULL,
+    id_fase INT NOT NULL,
+    status ENUM('nao_iniciado', 'em_andamento', 'concluido') NOT NULL,
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_jogador) REFERENCES Jogador(id_jogador) ON DELETE CASCADE,
+    FOREIGN KEY (id_fase) REFERENCES Fase(id_fase) ON DELETE CASCADE
+);
+
+-- Tabela Pontuação
+CREATE TABLE Pontuacao (
+    id_pontuacao INT AUTO_INCREMENT PRIMARY KEY,
+    id_jogador INT NOT NULL,
+    id_fase INT NOT NULL,
+    tempo_segundos INT NOT NULL,
+    pontos INT NOT NULL,
+    data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_jogador) REFERENCES Jogador(id_jogador) ON DELETE CASCADE,
+    FOREIGN KEY (id_fase) REFERENCES Fase(id_fase) ON DELETE CASCADE
+);
