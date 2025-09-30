@@ -36,14 +36,19 @@ function Player:move(dt)
                 self.xVelocity = self.maxSpeed
             end
         end
-    elseif love.keyboard.isDown("a", "left") then
-        if self.xVelocity > self.maxSpeed then
-            if self.xVelocity - self.acceleration * dt > self.maxSpeed then
+    elseif not love.keyboard.isDown("a", "left") then
+        self.xVelocity = 0
+    end
+    if love.keyboard.isDown("a", "left") then
+        if self.xVelocity > -self.maxSpeed then
+            if -self.xVelocity - self.acceleration * dt > self.maxSpeed then
                 self.xVelocity = self.xVelocity - self.acceleration * dt
             else
                 self.xVelocity = -self.maxSpeed
             end
         end
+    elseif not love.keyboard.isDown("d", "right") then
+        self.xVelocity = 0
     end
 end
 
@@ -55,5 +60,5 @@ end
 function Player:draw()
     -- Love desenha o jogador do ponto de comeco, no topo a esquerda do retangulo
     -- ou seja eh necessario dividir os valores para renderizar o personagem pelo meio
-    love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.width / 2, self.width, self.height)
+    love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
 end
