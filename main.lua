@@ -1,4 +1,9 @@
+if arg[2] == "debug" then
+    require("lldebugger").start()
+end
+
 local STI = require("sti")
+require("player")
 
 function love.load()
 	Map = STI("map/1.lua", {"box2d"})
@@ -7,27 +12,14 @@ function love.load()
 	Map.layers.solid.visible = false
 	background = love.graphics.newImage("assets/background.png")
 
-	player = {}
-	player.x = 100
-	player.y = 100
-	player.speed = 3
+	Player:load()
+
 end
 
 function love.update(dt)
 	World:update(dt)
+	Player:update(dt)
 
-	if love.keyboard.isDown("right") then
-		player.x = player.x + player.speed
-	end
-	if love.keyboard.isDown("left") then
-		player.x = player.x - player.speed
-	end
-	if love.keyboard.isDown("down") then
-		player.y = player.y + player.speed
-	end
-	if love.keyboard.isDown("up") then
-		player.y = player.y - player.speed
-	end
 end
 
 function love.draw()
@@ -35,7 +27,9 @@ function love.draw()
 	Map:draw(0, 0, 2, 2)
 	love.graphics.push()
 	love.graphics.scale(2,2)
+
+	Player:draw()
+
 	love.graphics.pop()
 
-	love.graphics.circle("fill", player.x, player.y, 100)
 end

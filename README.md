@@ -1,5 +1,8 @@
 # Syntax Saga
 
+# Tutorial
+https://sheepolution.com/learn/book/bonus/vscode
+
 # Assets Used
 - Tiled 
 https://www.mapeditor.org/
