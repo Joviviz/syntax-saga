@@ -1,4 +1,4 @@
-# Syntax Saga - Patch 0.1.3
+# Syntax Saga - Patch 0.1.4
 
 # Tutorial
 https://sheepolution.com/learn/book/bonus/vscode
