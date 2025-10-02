@@ -10,6 +10,10 @@ function Player:load()
     self.maxSpeed = 200
     self.acceleration = 4000
     self.friction = 3500
+    self.gravity = 1500
+    self.jumpAmount = -500
+    
+    self.grounded = false
 
     self.maxHealth = 3
     self.health = 3
@@ -25,8 +29,17 @@ end
 function Player:update(dt)
     self:syncPhysics()  
     self:move(dt)
+    self:applyGravity(dt)
 end
 
+-- Gravidade
+function Player:applyGravity(dt)
+    if self.grounded == false then
+        self.yVelocity = self.yVelocity + self.gravity * dt
+    end
+end
+
+-- Movimentacao
 function Player:move(dt)
     if love.keyboard.isDown("d", "right") then
         if self.xVelocity < self.maxSpeed then
@@ -36,26 +49,83 @@ function Player:move(dt)
                 self.xVelocity = self.maxSpeed
             end
         end
-    elseif not love.keyboard.isDown("a", "left") then
-        self.xVelocity = 0
-    end
-    if love.keyboard.isDown("a", "left") then
+    elseif love.keyboard.isDown("a", "left") then
         if self.xVelocity > -self.maxSpeed then
-            if -self.xVelocity - self.acceleration * dt > self.maxSpeed then
+            if self.xVelocity - self.acceleration * dt > -self.maxSpeed then
                 self.xVelocity = self.xVelocity - self.acceleration * dt
             else
                 self.xVelocity = -self.maxSpeed
             end
         end
-    elseif not love.keyboard.isDown("d", "right") then
-        self.xVelocity = 0
+    else
+        self:applyFriction(dt)
     end
 end
 
+-- Friccao para desacelerar o jogador
+function Player:applyFriction(dt)
+    if self.xVelocity > 0 then
+        if self.xVelocity - self.friction * dt > 0 then
+            self.xVelocity = self.xVelocity - self.friction * dt
+        else
+            self.xVelocity = 0
+        end
+    elseif self.xVelocity < 0 then
+        if self.xVelocity + self.friction * dt < 0 then
+            self.xVelocity = self.xVelocity + self.friction * dt
+        else
+            self.xVelocity = 0
+        end
+    end
+end
+
+-- Syncar Fisicas
 function Player:syncPhysics()
     self.x, self.y = self.physics.body:getPosition()
     self.physics.body:setLinearVelocity(self.xVelocity, self.yVelocity)
 end
+
+-- Mecanicas de contato com blocos
+function Player:beginContact(a, b, collision)
+    -- conferir se o jogador esta no tocando o chao
+    if self.grounded == true then return end
+    -- Retorna as coordenadas que aponta de um objeto A
+    -- para um objeto B, se A esta embaixo de A entao o vetor
+    -- sera um valor positivo
+	local nx, ny = collision:getNormal()
+    if a == self.physics.fixture then
+        if ny > 0 then
+            self:land(collision)
+        end
+    elseif b == self.physics.fixture then
+        if ny < 0 then
+            self:land(collision)
+        end
+    end
+end
+
+function Player:jump(key)
+    if (key == "w" or key == "up") and self.grounded then
+        self.yVelocity = self.jumpAmount
+        self.grounded = false
+    end
+end
+
+function Player:land(collision)
+    self.currentGroundCollision = collision
+    self.yVelocity = 0
+    self.grounded = true
+end
+
+-- 
+function Player:endContact(a, b, collision)
+	if a == self.physics.fixture or b == self.physics.fixture then
+        if self.currentGroundCollision == collision then
+            self.grounded = false
+        end
+    end
+end
+
 
 function Player:draw()
     -- Love desenha o jogador do ponto de comeco, no topo a esquerda do retangulo
