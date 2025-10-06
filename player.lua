@@ -4,8 +4,8 @@ function Player:load()
     -- Jogador
     self.x = 100
     self.y = 0
-    self.width = 20
-    self.height = 60
+    self.width = 16
+    self.height = 32
 
     -- Movimentacao
     self.xVelocity = 0
@@ -24,7 +24,7 @@ function Player:load()
     -- Features Futuras
     self.maxHealth = 3
     self.health = 3
-    
+
     -- Configs
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, "dynamic")
@@ -36,19 +36,35 @@ end
 
 -- Carregar ASSETS (WIP)
 function Player:loadAssets()
-    self.animation = {timer = 0, rate = 0.1}
-    self.animation.run = {total = 6, current = 1}
-    for i = 1, self.animation.run.total do
-        print(i)
-    end
+    -- !!!!!!!!!!!Codigo para quando tiver mais de um frame!!!!!!!!!!!!!!!!!!
+    -- self.animation = {timer = 0, rate = 0.1}
+    -- self.animation.run = {total = 6, current = 1, img = {}}
+    -- for i = 1, self.animation.run.total do
+    --     self.animation.run[i] = love.graphics.newImage("assets/player/1.png")
+    -- end
+    -- self.animation.draw = self.animation.idle.img[1]
+    -- self.animation.width = self.animation.draw:getWidth()
+    -- self.animation.height = self.animation.draw:getHeight()
+    ------------------------------------------------------------------------
+    -- Temporario de um frame
+    self.animation        = {}
+    self.animation.draw   = love.graphics.newImage("assets/player/1.png")
+
+    self.animation.width  = self.animation.draw:getWidth()
+    self.animation.height = self.animation.draw:getHeight()
 end
 
 -- Frames
 function Player:update(dt)
-    self:syncPhysics()  
+    self:syncPhysics()
     self:move(dt)
     self:applyGravity(dt)
     self:decreaseGraceTime(dt)
+    self:animate(dt)
+end
+
+function Player:animate()
+    
 end
 
 -- Gravidade
@@ -57,7 +73,6 @@ function Player:applyGravity(dt)
         self.yVelocity = self.yVelocity + self.gravity * dt
     end
 end
-
 
 -- Movimentacao
 function Player:move(dt)
@@ -112,7 +127,7 @@ function Player:beginContact(a, b, collision)
     -- Retorna as coordenadas que aponta de um objeto A
     -- para um objeto B, se A esta embaixo de A entao o vetor
     -- sera um valor positivo
-	local nx, ny = collision:getNormal()
+    local nx, ny = collision:getNormal()
     if a == self.physics.fixture then
         if ny > 0 then
             self:land(collision)
@@ -150,20 +165,18 @@ function Player:land(collision)
     self.graceTime = self.graceDuration
 end
 
--- 
+--
 function Player:endContact(a, b, collision)
-	if a == self.physics.fixture or b == self.physics.fixture then
+    if a == self.physics.fixture or b == self.physics.fixture then
         if self.currentGroundCollision == collision then
             self.grounded = false
         end
     end
 end
 
-
-
-
 function Player:draw()
     -- Love desenha o jogador do ponto de comeco, no topo a esquerda do retangulo
     -- ou seja eh necessario dividir os valores para renderizar o personagem pelo meio
-    love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
+    -- love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
+    love.graphics.draw(self.animation.draw, self.x, self.y, 0, 1, 1, self.animation.width / 2, self.animation.height / 2 )
 end

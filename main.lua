@@ -4,6 +4,8 @@ end
 
 local STI = require("sti")
 require("player")
+-- Fix blurry sprites
+love.graphics.setDefaultFilter("nearest", "nearest")
 
 function love.load()
 	Map = STI("map/1.lua", {"box2d"})
