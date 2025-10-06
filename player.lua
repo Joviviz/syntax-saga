@@ -5,7 +5,7 @@ function Player:load()
     self.x = 100
     self.y = 0
     self.width = 16
-    self.height = 32
+    self.height = 30 -- it was 32, 32 makes his height not being able to go under 2 blocks
 
     -- Movimentacao
     self.xVelocity = 0
@@ -20,6 +20,9 @@ function Player:load()
     self.hasDoubleJump = true
     self.graceTime = 0
     self.graceDuration = 0.1
+    -- Animacoes
+    self.direction = "right"
+    self.state = "idle"
 
     -- Features Futuras
     self.maxHealth = 3
@@ -36,22 +39,30 @@ end
 
 -- Carregar ASSETS (WIP)
 function Player:loadAssets()
-    -- !!!!!!!!!!!Codigo para quando tiver mais de um frame!!!!!!!!!!!!!!!!!!
-    -- self.animation = {timer = 0, rate = 0.1}
-    -- self.animation.run = {total = 6, current = 1, img = {}}
-    -- for i = 1, self.animation.run.total do
-    --     self.animation.run[i] = love.graphics.newImage("assets/player/1.png")
-    -- end
-    -- self.animation.draw = self.animation.idle.img[1]
-    -- self.animation.width = self.animation.draw:getWidth()
-    -- self.animation.height = self.animation.draw:getHeight()
+    self.animation = { timer = 0, rate = 0.1 }
+    -- Animacao de correr
+    self.animation.run = { total = 5, current = 1, img = {} }
+    for i = 1, self.animation.run.total do
+        self.animation.run.img[i] = love.graphics.newImage("assets/player/run/" .. i .. ".png")
+    end
+
+    -- Animacao idle
+    self.animation.idle = { total = 1, current = 1, img = {} }
+    self.animation.idle.img[1] = love.graphics.newImage("assets/player/idle/1.png")
+
+    self.animation.draw = self.animation.idle.img[1]
+
+
+
+    self.animation.width = self.animation.draw:getWidth()
+    self.animation.height = self.animation.draw:getHeight()
     ------------------------------------------------------------------------
     -- Temporario de um frame
-    self.animation        = {}
-    self.animation.draw   = love.graphics.newImage("assets/player/1.png")
+    -- self.animation        = {}
+    -- self.animation.draw   = love.graphics.newImage("assets/player/1.png")
 
-    self.animation.width  = self.animation.draw:getWidth()
-    self.animation.height = self.animation.draw:getHeight()
+    -- self.animation.width  = self.animation.draw:getWidth()
+    -- self.animation.height = self.animation.draw:getHeight()
 end
 
 -- Frames
@@ -61,10 +72,45 @@ function Player:update(dt)
     self:applyGravity(dt)
     self:decreaseGraceTime(dt)
     self:animate(dt)
+    self:setDirection()
+    self:setState()
 end
 
-function Player:animate()
-    
+-- Animacoes de andar
+function Player:animate(dt)
+    self.animation.timer = self.animation.timer + dt
+    if self.animation.rate < self.animation.timer then
+        self.animation.timer = 0
+        self:setNewFrame()
+    end
+end
+
+function Player:setNewFrame()
+    local anim = self.animation[self.state]
+    -- print(anim.current)
+    if anim.current < anim.total then
+        anim.current = anim.current + 1
+    else
+        anim.current = 1
+    end
+    self.animation.draw = anim.img[anim.current]
+end
+
+function Player:setDirection()
+    if self.xVelocity > 0 then
+        self.direction = "right"
+    elseif self.xVelocity < 0 then
+        self.direction = "left"
+    end
+end
+
+function Player:setState()
+    if self.xVelocity == 0 then
+        self.state = "idle"
+    else
+        self.state = "run"
+    end
+    print(self.state)
 end
 
 -- Gravidade
@@ -76,6 +122,7 @@ end
 
 -- Movimentacao
 function Player:move(dt)
+    -- Pesquisar na math library
     if love.keyboard.isDown("d", "right") then
         if self.xVelocity < self.maxSpeed then
             if self.xVelocity + self.acceleration * dt < self.maxSpeed then
@@ -131,12 +178,20 @@ function Player:beginContact(a, b, collision)
     if a == self.physics.fixture then
         if ny > 0 then
             self:land(collision)
+        elseif ny < 0 then
+            self:hitCeiling(collision)
         end
     elseif b == self.physics.fixture then
         if ny < 0 then
             self:land(collision)
+        elseif ny > 0 then
+            self:hitCeiling(collision)
         end
     end
+end
+
+function Player:hitCeiling(collision)
+    self.yVelocity = 0
 end
 
 function Player:jump(key)
@@ -175,8 +230,13 @@ function Player:endContact(a, b, collision)
 end
 
 function Player:draw()
+    local scaleX = 1
+    if self.direction == "left" then
+        scaleX = -1
+    end
+    -- love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
     -- Love desenha o jogador do ponto de comeco, no topo a esquerda do retangulo
     -- ou seja eh necessario dividir os valores para renderizar o personagem pelo meio
-    -- love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
-    love.graphics.draw(self.animation.draw, self.x, self.y, 0, 1, 1, self.animation.width / 2, self.animation.height / 2 )
+    love.graphics.draw(self.animation.draw, self.x, self.y, 0, scaleX, 1, self.animation.width / 2,
+        self.animation.height / 2)
 end
