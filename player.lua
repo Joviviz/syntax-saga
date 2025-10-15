@@ -28,6 +28,9 @@ function Player:load()
     self.maxHealth = 3
     self.health = 3
 
+    -- Moedas
+    self.coins = 0
+
     -- Configs
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, "dynamic")
@@ -56,13 +59,14 @@ function Player:loadAssets()
 
     self.animation.width = self.animation.draw:getWidth()
     self.animation.height = self.animation.draw:getHeight()
-    ------------------------------------------------------------------------
-    -- Temporario de um frame
-    -- self.animation        = {}
-    -- self.animation.draw   = love.graphics.newImage("assets/player/1.png")
+    
 
-    -- self.animation.width  = self.animation.draw:getWidth()
-    -- self.animation.height = self.animation.draw:getHeight()
+end
+
+-- Moedas
+function Player:incrementCoins()
+    self.coins = self.coins + 1
+    print(self.coins)
 end
 
 -- Frames
@@ -110,7 +114,8 @@ function Player:setState()
     else
         self.state = "run"
     end
-    print(self.state)
+    -- Printar state que o personagem esta para teste
+    -- print(self.state)
 end
 
 -- Gravidade
