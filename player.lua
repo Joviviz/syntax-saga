@@ -107,7 +107,6 @@ function Player:setDirection()
         self.direction = "left"
     end
 end
-
 function Player:setState()
     if self.xVelocity == 0 then
         self.state = "idle"
