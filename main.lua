@@ -7,6 +7,7 @@ require("player")
 require("coin")
 require("gui")
 require("box")
+require("button") -- Carrega o modulo do botao
 -- Carrega o modulo do menu
 local Menu = require("menu")
 
@@ -38,6 +39,13 @@ function loadGame()
     Coin.new(300, 200)
     Coin.new(400, 200)
     Coin.new(500, 100)
+    
+    local buttonWidth = 64
+    local buttonHeight = 16
+    
+    local buttonX = 540 
+    local buttonY = 328 
+    Button.new(buttonX, buttonY, buttonWidth, buttonHeight)
 end
 
 function love.load()
@@ -53,6 +61,7 @@ function love.update(dt)
         Player:update(dt)
         Coin.updateAll(dt)
         Box.updateAll(dt)
+        Button.updateAll(dt) 
     end
 end
 
@@ -74,6 +83,7 @@ function love.draw()
         Player:draw()
         Box.drawAll()
         Coin.drawAll()
+        Button.drawAll() 
         love.graphics.pop()
     end
 end
@@ -110,6 +120,7 @@ function beginContact(a, b, collision)
             return 
         end
         Player:beginContact(a, b, collision)
+        Button.beginContact(a, b, collision)
     end
 end
 
@@ -118,5 +129,6 @@ function endContact(a, b, collision)
     -- if para verificar colisoes apenas em jogo
     if gameState == "game" then
         Player:endContact(a, b, collision)
+        Button.endContact(a, b, collision) 
     end
 end
