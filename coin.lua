@@ -1,14 +1,14 @@
-Coin = {}
+Coin = { img = love.graphics.newImage("assets/coin.png") }
 Coin.__index = Coin
+Coin.width = Coin.img:getWidth()
+Coin.height = Coin.img:getHeight()
+
 ActiveCoins = {}
 
 function Coin.new(x, y)
     local instance = setmetatable({}, Coin)
     instance.x = x
     instance.y = y
-    instance.img = love.graphics.newImage("assets/coin.png")
-    instance.width = instance.img:getWidth()
-    instance.height = instance.img:getHeight()
 
     -- Coin SPPPPPPIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIN
     instance.scaleX = 1
@@ -18,7 +18,7 @@ function Coin.new(x, y)
     instance.physics = {}
     instance.physics.body = love.physics.newBody(World, instance.x, instance.y, "static")
     instance.physics.shape = love.physics.newRectangleShape(instance.width, instance.height)
-    instance.physics.fixture = love.physics.newFixture(instance.physics.body, instance.physics.shape) 
+    instance.physics.fixture = love.physics.newFixture(instance.physics.body, instance.physics.shape)
     instance.physics.fixture:setSensor(true)
     instance.toBeRemoved = false
 
@@ -39,7 +39,7 @@ function Coin:spin(dt)
 end
 
 function Coin:draw()
-    love.graphics.draw(self.img, self.x, self.y, 0, self.scaleX, 1, self.width/2, self.height/2)
+    love.graphics.draw(self.img, self.x, self.y, 0, self.scaleX, 1, self.width / 2, self.height / 2)
 end
 
 function Coin:updateAll(dt)

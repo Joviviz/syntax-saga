@@ -6,6 +6,7 @@ local STI = require("sti")
 require("player")
 require("coin")
 require("gui")
+require("spike")
 
 -- Fix blurry sprites
 love.graphics.setDefaultFilter("nearest", "nearest")
@@ -24,6 +25,7 @@ function love.load()
 	Coin.new(300, 200)
 	Coin.new(400, 200)
 	Coin.new(500, 100)
+	Spike.new(500, 200)
 
 end
 
@@ -31,22 +33,24 @@ function love.update(dt)
 	World:update(dt)
 	Player:update(dt)
 	Coin.updateAll(dt)
+	Coin.updateAll(dt)
+	Spike.updateAll(dt)
+	GUI.update(dt)
 end
 
 function love.draw()
 	love.graphics.draw(background)
 	Map:draw(0, 0, 2, 2)
 
-	GUI:draw()
-
 	love.graphics.push()
 	love.graphics.scale(2,2)
 
 	Player:draw()
-
 	Coin.drawAll()
-
+	Spike.drawAll()
+	
 	love.graphics.pop()
+	GUI:draw()
 end
 
 function love.keypressed(key)
@@ -55,9 +59,14 @@ end
 
 
 -- These two are all good the problem is in player.lua
+-- A ORDEM DAS LINHAS EH ESSENCIAL NESSE CODIGO NAO MUDA PORFAVO
 function beginContact(a, b, collision)
 	-- Collect coin before player begins contact
 	if Coin.beginContact(a, b, collision) then 
+		return 
+	end
+	-- Dies before
+	if Spike.beginContact(a, b, collision) then 
 		return 
 	end
 		
