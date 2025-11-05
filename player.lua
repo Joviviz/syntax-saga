@@ -6,6 +6,9 @@ function Player:load()
     self.y = 0
     self.width = 16
     self.height = 30 -- it was 32, 32 makes his height not being able to go under 2 blocks
+    -- Starting position
+    self.startX = self.x
+    self.startY = self.y
 
     -- Movimentacao
     self.xVelocity = 0
@@ -24,9 +27,9 @@ function Player:load()
     self.direction = "right"
     self.state = "idle"
 
-    -- Features Futuras
-    self.maxHealth = 3
-    self.health = 3
+    -- vida
+    self.health = { current = 1, max = 1 }
+    self.alive = true
 
     -- Moedas
     self.coins = 0
@@ -59,14 +62,6 @@ function Player:loadAssets()
 
     self.animation.width = self.animation.draw:getWidth()
     self.animation.height = self.animation.draw:getHeight()
-    
-
-end
-
--- Moedas
-function Player:incrementCoins()
-    self.coins = self.coins + 1
-    print(self.coins)
 end
 
 -- Frames
@@ -78,6 +73,19 @@ function Player:update(dt)
     self:animate(dt)
     self:setDirection()
     self:setState()
+    self:respawn()
+end
+
+function Player:draw()
+    local scaleX = 1
+    if self.direction == "left" then
+        scaleX = -1
+    end
+    -- love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
+    -- Love desenha o jogador do ponto de comeco, no topo a esquerda do retangulo
+    -- ou seja eh necessario dividir os valores para renderizar o personagem pelo meio
+    love.graphics.draw(self.animation.draw, self.x, self.y, 0, scaleX, 1, self.animation.width / 2,
+        self.animation.height / 2)
 end
 
 -- Animacoes de andar
@@ -107,6 +115,7 @@ function Player:setDirection()
         self.direction = "left"
     end
 end
+
 function Player:setState()
     if self.xVelocity == 0 then
         self.state = "idle"
@@ -195,7 +204,9 @@ function Player:beginContact(a, b, collision)
 end
 
 function Player:hitCeiling(collision)
-    self.yVelocity = 0
+    if self.yVelocity < 0 then
+        self.yVelocity = 0
+    end
 end
 
 function Player:jump(key)
@@ -233,14 +244,34 @@ function Player:endContact(a, b, collision)
     end
 end
 
-function Player:draw()
-    local scaleX = 1
-    if self.direction == "left" then
-        scaleX = -1
-    end
-    -- love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
-    -- Love desenha o jogador do ponto de comeco, no topo a esquerda do retangulo
-    -- ou seja eh necessario dividir os valores para renderizar o personagem pelo meio
-    love.graphics.draw(self.animation.draw, self.x, self.y, 0, scaleX, 1, self.animation.width / 2,
-        self.animation.height / 2)
+-- Moedas
+function Player:incrementCoins()
+    self.coins = self.coins + 1
+    print("Coins: " .. self.coins)
 end
+
+-- Funcoes de tomar dano/reiniciar fases
+function Player:takeDamage(amount)
+    if self.health.current - amount > 0 then
+        self.health.current = self.health.current - amount
+    else
+        self.health.current = 0
+        self:die()
+    end
+    print("Player health: " .. self.health.current)
+end
+
+function Player:die()
+    print("Player died")
+    self.alive = false
+end
+
+function Player:respawn()
+    if self.alive == false then
+        self.physics.body:setPosition(self.startX, self.startY)
+        self.health.current = self.health.max
+        self.alive = true
+    end
+end
+
+return Player
