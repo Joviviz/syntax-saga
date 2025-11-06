@@ -9,6 +9,7 @@ require("gui")
 require("spike")
 require("box")
 require("button")
+require("platform")
 local Menu = require("menu")
 
 love.graphics.setDefaultFilter("nearest", "nearest")
@@ -34,12 +35,17 @@ function loadGame()
 	Spike.new(195, 327)
 	Spike.new(170, 327)
 
-	Box.new(350, 330)
-	Box.new(450, 330)
+	-- Box.new(350, 330)
+	-- Box.new(450, 330)
+	Box.new(510, 35)
+	Box.new(600, 35)
 
 	Coin.new(300, 200)
 	Coin.new(400, 200)
 	Coin.new(500, 100)
+
+	-- x, y, width, height
+	Platform.new(600, 200, 100, 16)
 
 	local buttonWidth = 64
 	local buttonHeight = 16
@@ -62,6 +68,7 @@ function love.update(dt)
 		Spike.updateAll(dt)
 		Button.updateAll(dt)
 		GUI.update(dt)
+		Platform.updateAll(dt)
 	end
 end
 
@@ -84,6 +91,7 @@ function love.draw()
 		Box.drawAll()
 		Spike.drawAll()
 		Button.drawAll()
+		Platform.drawAll()
 
 		love.graphics.pop()
 	end
