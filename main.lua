@@ -7,6 +7,7 @@ require("player")
 require("coin")
 require("gui")
 require("spike")
+require("box")
 
 -- Fix blurry sprites
 love.graphics.setDefaultFilter("nearest", "nearest")
@@ -22,6 +23,9 @@ function love.load()
 	Player:load()
 	GUI:load()
 
+	Box.new(350, 330)
+	Box.new(450, 330)
+
 	Coin.new(300, 200)
 	Coin.new(400, 200)
 	Coin.new(500, 100)
@@ -33,9 +37,9 @@ function love.update(dt)
 	World:update(dt)
 	Player:update(dt)
 	Coin.updateAll(dt)
-	Coin.updateAll(dt)
 	Spike.updateAll(dt)
 	GUI.update(dt)
+	Box.updateAll(dt)
 end
 
 function love.draw()
@@ -46,6 +50,7 @@ function love.draw()
 	love.graphics.scale(2,2)
 
 	Player:draw()
+	Box.drawAll()
 	Coin.drawAll()
 	Spike.drawAll()
 	
