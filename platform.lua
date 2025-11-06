@@ -1,0 +1,1 @@
+Platform.__index = Coin

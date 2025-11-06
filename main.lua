@@ -7,11 +7,18 @@ require("player")
 require("coin")
 require("gui")
 require("spike")
+require("box")
+require("button")
+local Menu = require("menu")
 
--- Fix blurry sprites
 love.graphics.setDefaultFilter("nearest", "nearest")
 
-function love.load()
+gameState = "menu"
+Map = nil
+World = nil
+background = nil
+
+function loadGame()
 	Map = STI("map/1.lua", {"box2d"})
 	World = love.physics.newWorld(0,0)
 	World:setCallbacks(beginContact, endContact)
@@ -22,58 +29,104 @@ function love.load()
 	Player:load()
 	GUI:load()
 
+	Spike.scale = 0.2
+	Spike.new(220, 327)
+	Spike.new(195, 327)
+	Spike.new(170, 327)
+
+	Box.new(350, 330)
+	Box.new(450, 330)
+
 	Coin.new(300, 200)
 	Coin.new(400, 200)
 	Coin.new(500, 100)
-	Spike.new(500, 200)
 
+	local buttonWidth = 64
+	local buttonHeight = 16
+	local buttonX = 540 
+	local buttonY = 328 
+	Button.new(buttonX, buttonY, buttonWidth, buttonHeight)
+end
+
+function love.load()
+	background = love.graphics.newImage("assets/background.png")
+	Menu.load()
 end
 
 function love.update(dt)
-	World:update(dt)
-	Player:update(dt)
-	Coin.updateAll(dt)
-	Coin.updateAll(dt)
-	Spike.updateAll(dt)
-	GUI.update(dt)
+	if gameState == "game" then
+		World:update(dt)
+		Player:update(dt)
+		Coin.updateAll(dt)
+		Box.updateAll(dt)
+		Spike.updateAll(dt)
+		Button.updateAll(dt)
+		GUI.update(dt)
+	end
 end
 
 function love.draw()
-	love.graphics.draw(background)
-	Map:draw(0, 0, 2, 2)
+	local scaleX = love.graphics.getWidth() / background:getWidth()
+	local scaleY = love.graphics.getHeight() / background:getHeight()
+	love.graphics.draw(background, 0, 0, 0, scaleX, scaleY)
 
-	love.graphics.push()
-	love.graphics.scale(2,2)
+	if gameState == "menu" then
+		Menu.draw()
+	elseif gameState == "game" then
+		Map:draw(0, 0, 2, 2)
+		GUI:draw()
 
-	Player:draw()
-	Coin.drawAll()
-	Spike.drawAll()
-	
-	love.graphics.pop()
-	GUI:draw()
+		love.graphics.push()
+		love.graphics.scale(2,2)
+
+		Player:draw()
+		Coin.drawAll()
+		Box.drawAll()
+		Spike.drawAll()
+		Button.drawAll()
+
+		love.graphics.pop()
+	end
 end
 
 function love.keypressed(key)
-	Player:jump(key)
+	if key == "escape" then
+		love.event.quit()
+	end
+
+	if gameState == "game" then
+		Player:jump(key)
+	end
 end
 
+function love.mousepressed(x, y, button)
+	if gameState == "menu" then
+		local newState = Menu.mousepressed(x, y, button)
+		if newState == "game" then
+			gameState = "game"
+			loadGame()
+		end
+	end
+end
 
 -- These two are all good the problem is in player.lua
 -- A ORDEM DAS LINHAS EH ESSENCIAL NESSE CODIGO NAO MUDA PORFAVO
 function beginContact(a, b, collision)
-	-- Collect coin before player begins contact
-	if Coin.beginContact(a, b, collision) then 
-		return 
+	if gameState == "game" then
+		if Coin.beginContact(a, b, collision) then 
+			return 
+		end
+		if Spike.beginContact(a, b, collision) then 
+			return 
+		end
+		Player:beginContact(a, b, collision)
+		Button.beginContact(a, b, collision)
 	end
-	-- Dies before
-	if Spike.beginContact(a, b, collision) then 
-		return 
-	end
-		
-	Player:beginContact(a, b, collision)
 end
 
-
 function endContact(a, b, collision)
-	Player:endContact(a, b, collision)
+	if gameState == "game" then
+		Player:endContact(a, b, collision)
+		Button.endContact(a, b, collision)
+	end
 end
