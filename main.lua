@@ -9,6 +9,7 @@ require("gui")
 require("spike")
 require("box")
 require("button")
+require("elevator")
 local Menu = require("menu")
 
 love.graphics.setDefaultFilter("nearest", "nearest")
@@ -30,22 +31,20 @@ function loadGame()
 	GUI:load()
 
 	Spike.scale = 0.2
-	Spike.new(220, 327)
-	Spike.new(195, 327)
-	Spike.new(170, 327)
+	Spike.new(75, 327)
+	Spike.new(100, 327)
+	Spike.new(125, 327)
 
-	Box.new(350, 330)
-	Box.new(450, 330)
+	Box.new(225, 327)
+	Box.new(275, 327)
 
-	Coin.new(300, 200)
-	Coin.new(400, 200)
-	Coin.new(500, 100)
+	Coin.new(10, 300)
+	Coin.new(30, 300)
+	Coin.new(50, 300)
 
-	local buttonWidth = 64
-	local buttonHeight = 16
-	local buttonX = 540 
-	local buttonY = 328 
-	Button.new(buttonX, buttonY, buttonWidth, buttonHeight)
+	Button.new(480, 360, 64, 16)
+
+	Elevator.new(560, 330, 64, 16)
 end
 
 function love.load()
@@ -61,6 +60,7 @@ function love.update(dt)
 		Box.updateAll(dt)
 		Spike.updateAll(dt)
 		Button.updateAll(dt)
+		Elevator.updateAll(dt)
 		GUI.update(dt)
 	end
 end
@@ -84,6 +84,7 @@ function love.draw()
 		Box.drawAll()
 		Spike.drawAll()
 		Button.drawAll()
+		Elevator.drawAll()
 
 		love.graphics.pop()
 	end
@@ -128,5 +129,7 @@ function endContact(a, b, collision)
 	if gameState == "game" then
 		Player:endContact(a, b, collision)
 		Button.endContact(a, b, collision)
+
+		Box.beginContact(a, b, collision)
 	end
 end
