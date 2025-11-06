@@ -1,5 +1,9 @@
-Box = {}
-boxes = {}
+Box = {img = love.graphics.newImage("assets/box.png")}
+Box.__index = Box
+Box.width = Box.img:getWidth()
+Box.height = Box.img:getHeight()
+
+ActiveBoxes = {}
 
 function Box:load()
 end
@@ -22,11 +26,11 @@ function Box.new(x, y)
     self.fixture:setRestitution(0)
     self.body:setLinearDamping(5)
 
-    table.insert(boxes, self)
+    table.insert(ActiveBoxes, self)
 end
 
 function Box.updateAll(dt)
-    for _, b in ipairs(boxes) do
+    for _, b in ipairs(ActiveBoxes) do
         local bx, by = b.body:getPosition()
 
         -- 🔹 Gravidade manual (similar ao Player)
@@ -50,10 +54,18 @@ function Box.updateAll(dt)
 end
 
 function Box.drawAll()
-    love.graphics.setColor(0.7, 0.4, 0.2)
-    for _, b in ipairs(boxes) do
+    for _, b in ipairs(ActiveBoxes) do
         local bx, by = b.body:getPosition()
-        love.graphics.rectangle("fill", bx - b.width / 2, by - b.height / 2, b.width, b.height)
+        love.graphics.draw(
+            Box.img,
+            bx,
+            by,
+            b.body:getAngle(), 
+            Box.scaleX,
+            Box.scaleY,
+            Box.img:getWidth()/2,  
+            Box.img:getHeight()/2 
+        )
     end
     love.graphics.setColor(1, 1, 1)
 end
@@ -62,7 +74,7 @@ end
 function Box.beginContact(a, b)
     local boxFixture = (a:getUserData() == "Box") and a or ((b:getUserData() == "Box") and b or nil)
     if boxFixture then
-        for _, box in ipairs(boxes) do
+        for _, box in ipairs(ActiveBoxes) do
             if box.fixture == boxFixture then
                 box.isBeingPushed = true
 
