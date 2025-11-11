@@ -4,12 +4,13 @@ end
 
 local STI = require("sti")
 require("player")
-require("coin")
+require("objects/coin")
 require("gui")
-require("spike")
-require("box")
-require("button")
-require("platform")
+require("objects/spike")
+require("objects/box")
+require("objects/button")
+require("objects/platform")
+require("objects/flag")
 local Menu = require("menu")
 
 love.graphics.setDefaultFilter("nearest", "nearest")
