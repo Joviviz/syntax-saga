@@ -1,5 +1,5 @@
 Button = {}
-buttons = {} -- Lista para guardar todos os nossos botoes
+ActiveButtons = {} -- Lista para guardar todos os nossos botoes
 
 function Button.new(x, y, width, height)
     local self = {}
@@ -21,14 +21,14 @@ function Button.new(x, y, width, height)
     
     self.fixture:setUserData("Button")
 
-    table.insert(buttons, self)
+    table.insert(ActiveButtons, self)
     return self
 end
 
 -- Funcao para atualizar a contagem de caixas
 function Button.updateAll(dt)
     -- Itera por todos os botoes criados
-    for _, b in ipairs(buttons) do
+    for _, b in ipairs(ActiveButtons) do
         local count = 0
         -- Conta quantas caixas estao na tabela "touchingBoxes"
         for _ in pairs(b.touchingBoxes) do
@@ -43,7 +43,7 @@ function Button.drawAll()
     -- Define a cor para vermelho
     love.graphics.setColor(1, 0, 0) 
     
-    for _, b in ipairs(buttons) do
+    for _, b in ipairs(ActiveButtons) do
         love.graphics.rectangle("fill", b.x - b.width / 2, b.y - b.height / 2, b.width, b.height)
     end
     
@@ -78,12 +78,12 @@ function Button.beginContact(a, b, collision)
     if boxIsOnTop then
         -- Encontra o objeto "box" e "button" correspondentes
         local box = nil
-        for _, b_obj in ipairs(boxes) do -- "boxes" eh a tabela global de box.lua
+        for _, b_obj in ipairs(ActiveBoxes) do -- "ActiveBoxes" eh a tabela global de box.lua
             if b_obj.fixture == boxFixture then box = b_obj; break; end
         end
         
         local button = nil
-        for _, btn_obj in ipairs(buttons) do
+        for _, btn_obj in ipairs(ActiveButtons) do
             if btn_obj.fixture == buttonFixture then button = btn_obj; break; end
         end
 
@@ -104,12 +104,12 @@ function Button.endContact(a, b, collision)
 
     -- Encontra o objeto "box" e "button"
     local box = nil
-    for _, b_obj in ipairs(boxes) do
+    for _, b_obj in ipairs(ActiveBoxes) do
         if b_obj.fixture == boxFixture then box = b_obj; break; end
     end
     
     local button = nil
-    for _, btn_obj in ipairs(buttons) do
+    for _, btn_obj in ipairs(ActiveButtons) do
         if btn_obj.fixture == buttonFixture then button = btn_obj; break; end
     end
 
@@ -122,7 +122,7 @@ end
 -- Funcao para o GUI.lua obter a contagem total das caixas
 function Button.getTotalBoxCount()
     local total = 0
-    for _, b in ipairs(buttons) do
+    for _, b in ipairs(ActiveButtons) do
         total = total + b.boxCount
     end
     return total
