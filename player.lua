@@ -274,20 +274,4 @@ function Player:respawn()
     end
 end
 
-function Player:reset()
-    self.x = 100
-    self.y = 0
-    self.xVelocity = 0
-    self.yVelocity = 100
-    self.grounded = false
-    self.hasDoubleJump = true
-    self.graceTime = 0
-    self.coins = 0
-    
-    if self.physics.body then
-        self.physics.body:setPosition(self.x, self.y)
-        self.physics.body:setLinearVelocity(0, 0)
-    end
-end
-
 return Player
