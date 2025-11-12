@@ -30,6 +30,15 @@ end
 function Spike:update(dt)
 end
 
+function Spike:setScale(newScale)
+    Spike.scale = newScale
+    for _, instance in ipairs(ActiveSpikes) do
+        instance.width = Spike.width * newScale
+        instance.height = Spike.height * newScale
+    end
+end
+
+
 function Spike:draw()
     love.graphics.draw(
         self.img,
@@ -42,6 +51,15 @@ function Spike:draw()
         self.height / 2
     )
 end
+
+function Spike:setScale(newScale)
+    Spike.scale = newScale
+    for _, instance in ipairs(ActiveSpikes) do
+        instance.width = Spike.width * newScale
+        instance.height = Spike.height * newScale
+    end
+end
+
 
 function Spike:updateAll(dt)
     for i, instance in ipairs(ActiveSpikes) do
