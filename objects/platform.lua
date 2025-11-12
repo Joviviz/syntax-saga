@@ -1,7 +1,9 @@
-Platform = {}
+local Platform = {}
+local Button = require("objects/button")
+
 Platform.__index = Platform
 
-ActivePlatforms = {}
+local ActivePlatforms = {}
 
 function Platform.new(x, y, width, height)
     local instance = setmetatable({}, Platform)

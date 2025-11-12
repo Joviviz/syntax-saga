@@ -1,9 +1,9 @@
-Box = {img = love.graphics.newImage("assets/box.png")}
+local Box = {img = love.graphics.newImage("assets/box.png")}
 Box.__index = Box
 Box.width = Box.img:getWidth()
 Box.height = Box.img:getHeight()
 
-ActiveBoxes = {}
+local ActiveBoxes = {}
 
 function Box:load()
 end
@@ -88,3 +88,9 @@ function Box.beginContact(a, b)
         end
     end
 end
+
+function Box.getActiveBoxes()
+    return ActiveBoxes
+end
+
+return Box

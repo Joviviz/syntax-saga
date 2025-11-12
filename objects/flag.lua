@@ -1,9 +1,9 @@
-Flag = { img = love.graphics.newImage("assets/flag.png") }
+local Flag = { img = love.graphics.newImage("assets/flag.png") }
 Flag.__index = Flag
 Flag.width = Flag.img:getWidth()
 Flag.height = Flag.img:getHeight()
 
-ActiveFlags = {}
+local ActiveFlags = {}
 
 -- function Flag.new(x, y)
 --     local instance = setmetatable({}, Flag)
@@ -18,4 +18,4 @@ ActiveFlags = {}
 --     instance.physics.fixture:setSensor(true)
 --     instance.toBeRemoved = false
 
-    
+return Flag

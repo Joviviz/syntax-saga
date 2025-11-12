@@ -1,5 +1,6 @@
-Button = {}
-ActiveButtons = {} -- Lista para guardar todos os nossos botoes
+local Button = {}
+local ActiveButtons = {} -- Lista para guardar todos os nossos botoes
+local Box = require("objects/box")
 
 function Button.new(x, y, width, height)
     local self = {}
@@ -78,7 +79,8 @@ function Button.beginContact(a, b, collision)
     if boxIsOnTop then
         -- Encontra o objeto "box" e "button" correspondentes
         local box = nil
-        for _, b_obj in ipairs(ActiveBoxes) do -- "boxes" eh a tabela global de box.lua
+        local boxes = Box.getActiveBoxes()
+        for _, b_obj in ipairs(boxes) do -- "boxes" eh a tabela global de box.lua
             if b_obj.fixture == boxFixture then box = b_obj; break; end
         end
         
@@ -104,7 +106,8 @@ function Button.endContact(a, b, collision)
 
     -- Encontra o objeto "box" e "button"
     local box = nil
-    for _, b_obj in ipairs(ActiveBoxes) do
+    local boxes = Box.getActiveBoxes()
+    for _, b_obj in ipairs(boxes) do
         if b_obj.fixture == boxFixture then box = b_obj; break; end
     end
     
@@ -127,3 +130,5 @@ function Button.getTotalBoxCount()
     end
     return total
 end
+
+return Button
