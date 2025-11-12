@@ -4,6 +4,7 @@ Coin.width = Coin.img:getWidth()
 Coin.height = Coin.img:getHeight()
 
 local ActiveCoins = {}
+local Player = require("player")
 
 function Coin.new(x, y)
     local instance = setmetatable({}, Coin)

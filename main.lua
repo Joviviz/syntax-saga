@@ -3,7 +3,7 @@ if arg[2] == "debug" then
 end
 
 local STI = require("sti")
-require("player")
+local Player = require("player")
 local Coin = require("objects/coin")
 local GUI = require("gui")
 local Spike = require("objects/spike")

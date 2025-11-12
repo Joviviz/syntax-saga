@@ -1,4 +1,5 @@
 local Button = require("objects/button")
+local Player = require("player")
 
 local GUI = {}
 

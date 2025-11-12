@@ -4,6 +4,8 @@ Flag.width = Flag.img:getWidth()
 Flag.height = Flag.img:getHeight()
 
 local ActiveFlags = {}
+local Player = require("player")
+
 
 -- function Flag.new(x, y)
 --     local instance = setmetatable({}, Flag)

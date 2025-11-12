@@ -1,4 +1,4 @@
-Player = {}
+local Player = {}
 
 function Player:load()
     -- Jogador
