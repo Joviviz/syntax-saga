@@ -25,7 +25,6 @@ function Camera:setPosition(x, y)
     elseif RS > MapWidth  then
         self.x = MapWidth - love.graphics.getWidth() / 2
     end
-    end
 end
 
 return Camera

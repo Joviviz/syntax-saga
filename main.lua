@@ -73,7 +73,7 @@ function love.update(dt)
 		Button.updateAll(dt)
 		GUI.update(dt)
 		Platform.updateAll(dt)
-		Camera:setPosition(Player.x, 0)
+		-- Camera:setPosition(Player.x, 0)
 	end
 end
 
@@ -85,14 +85,14 @@ function love.draw()
 	if gameState == "menu" then
 		Menu.draw()
 	elseif gameState == "game" then
-		-- Map:draw(0, 0, 2, 2)
-		Map:draw(-Camera.x, -Camera.y, Camera.scale, Camera.scale)
+		Map:draw(0, 0, 2, 2)
+		-- Map:draw(-Camera.x, -Camera.y, Camera.scale, Camera.scale)
 		GUI:draw()
 
 		love.graphics.push()
 		love.graphics.scale(2,2)
 
-		Camera:apply()
+		-- Camera:apply()
 
 		Player:draw()
 		Coin.drawAll()
@@ -101,7 +101,7 @@ function love.draw()
 		Button.drawAll()
 		Platform.drawAll()
 
-		Camera:reset()
+		-- Camera:reset()
 
 		love.graphics.pop()
 	end
