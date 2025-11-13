@@ -1,6 +1,4 @@
 require("objects/button")
-local GameStateManager = require("gameStateManager")
-
 
 GUI = {}
 
@@ -58,10 +56,8 @@ function GUI:displayBoxCount()
     
     -- Contagem (com seguranca)
     local count = 0
-    
     -- So tentamos obter a contagem se o jogo estiver a correr (senao 'Button' da erro)
-    local state = GameStateManager:getState()
-    if state == "game" then
+    if gameState == "game" then
         count = Button.getTotalBoxCount()
     end
 
