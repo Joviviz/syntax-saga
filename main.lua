@@ -85,12 +85,8 @@ function love.draw()
 	if gameState == "menu" then
 		Menu.draw()
 	elseif gameState == "game" then
-<<<<<<< HEAD
-		Map:draw(0, 0, 2, 2)
-=======
 		-- Map:draw(0, 0, 2, 2)
 		Map:draw(-Camera.x, -Camera.y, Camera.scale, Camera.scale)
->>>>>>> jovi2
 		GUI:draw()
 
 		love.graphics.push()
@@ -105,11 +101,8 @@ function love.draw()
 		Button.drawAll()
 		Platform.drawAll()
 
-<<<<<<< HEAD
-=======
 		Camera:reset()
 
->>>>>>> jovi2
 		love.graphics.pop()
 	end
 end
