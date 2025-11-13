@@ -3,15 +3,18 @@ if arg[2] == "debug" then
 end
 
 local STI = require("sti")
-require("player")
-require("objects/coin")
-require("gui")
-require("objects/spike")
-require("objects/box")
-require("objects/button")
-require("objects/platform")
-require("objects/flag")
 local Menu = require("menu")
+local GUI = require("gui")
+local Camera = require("camera")
+
+
+local Player = require("player")
+local Coin = require("objects/coin")
+local Spike = require("objects/spike")
+local Box = require("objects/box")
+local Button = require("objects/button")
+local Platform = require("objects/platform")
+local Flag = require("objects/flag")
 
 love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -70,6 +73,7 @@ function love.update(dt)
 		Button.updateAll(dt)
 		GUI.update(dt)
 		Platform.updateAll(dt)
+		Camera:setPosition(Player.x, 0)
 	end
 end
 
@@ -81,11 +85,18 @@ function love.draw()
 	if gameState == "menu" then
 		Menu.draw()
 	elseif gameState == "game" then
+<<<<<<< HEAD
 		Map:draw(0, 0, 2, 2)
+=======
+		-- Map:draw(0, 0, 2, 2)
+		Map:draw(-Camera.x, -Camera.y, Camera.scale, Camera.scale)
+>>>>>>> jovi2
 		GUI:draw()
 
 		love.graphics.push()
 		love.graphics.scale(2,2)
+
+		Camera:apply()
 
 		Player:draw()
 		Coin.drawAll()
@@ -94,6 +105,11 @@ function love.draw()
 		Button.drawAll()
 		Platform.drawAll()
 
+<<<<<<< HEAD
+=======
+		Camera:reset()
+
+>>>>>>> jovi2
 		love.graphics.pop()
 	end
 end

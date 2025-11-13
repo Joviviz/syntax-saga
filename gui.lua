@@ -1,6 +1,7 @@
-require("objects/button")
+local Button = require("objects/button")
+local Player = require("player")
 
-GUI = {}
+local GUI = {}
 
 function GUI:load()
     self.coins = {}
@@ -86,3 +87,5 @@ function GUI:displayBoxCount()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print(text, x, y)
 end
+
+return GUI
