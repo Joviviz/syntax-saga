@@ -23,8 +23,8 @@ Map = nil
 World = nil
 background = nil
 
-function loadLevel(fase)
-    Map = STI(fase.mapPath, {"box2d"})
+function loadLevel(level)
+    Map = STI(level.mapPath, {"box2d"})
     World = love.physics.newWorld(0, 0)
     World:setCallbacks(beginContact, endContact)
     Map:box2d_init(World)
@@ -36,19 +36,19 @@ function loadLevel(fase)
 
     background = love.graphics.newImage("assets/background.png")
 
-    for _, s in ipairs(fase.spikes) do
+    for _, s in ipairs(level.spikes) do
         Spike.new(s.x, s.y)
     end
-    for _, b in ipairs(fase.boxes) do
+    for _, b in ipairs(level.boxes) do
         Box.new(b.x, b.y)
     end
-    for _, c in ipairs(fase.coins) do
+    for _, c in ipairs(level.coins) do
         Coin.new(c.x, c.y)
     end
-    for _, p in ipairs(fase.platforms) do
+    for _, p in ipairs(level.platforms) do
         Platform.new(p.x, p.y, p.w, p.h)
     end
-    for _, bt in ipairs(fase.buttons) do
+    for _, bt in ipairs(level.buttons) do
         Button.new(bt.x, bt.y, bt.w, bt.h)
     end
 end
@@ -114,14 +114,14 @@ end
 function love.mousepressed(x, y, button)
     if gameState == "menu" then
         local newState = Menu.mousepressed(x, y, button)
-        if newState == "fase1" then
-            local fase1 = require("fases.fase1")
-            loadLevel(fase1)
-            gameState = "fase1"
-        elseif newState == "fase2" then
-            local fase2 = require("fases.fase2")
-            loadLevel(fase2)
-            gameState = "fase2"
+        if newState == "level1" then
+            local level1 = require("levels.level1")
+            loadLevel(level1)
+            gameState = "level1"
+        elseif newState == "level2" then
+            local level2 = require("levels.level2")
+            loadLevel(level2)
+            gameState = "level2"
         end
     end
 end

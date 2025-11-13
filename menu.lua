@@ -70,13 +70,13 @@ function Menu.mousepressed(x, y, button)
         -- Fase 1
         if x >= Menu.startButton1.x and x <= (Menu.startButton1.x + Menu.startButton1.width) and
            y >= Menu.startButton1.y and y <= (Menu.startButton1.y + Menu.startButton1.height) then
-            return "fase1"
+            return "level1"
         end
 
         -- Fase 2
         if x >= Menu.startButton2.x and x <= (Menu.startButton2.x + Menu.startButton2.width) and
            y >= Menu.startButton2.y and y <= (Menu.startButton2.y + Menu.startButton2.height) then
-            return "fase2"
+            return "level2"
         end
 
         -- Sair

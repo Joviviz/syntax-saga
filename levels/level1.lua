@@ -1,4 +1,4 @@
-local fase1 = {
+local level1 = {
     mapPath = "map/1.lua",
 
     spikes = {
@@ -27,4 +27,4 @@ local fase1 = {
     },
 }
 
-return fase1
+return level1
