@@ -60,4 +60,14 @@ function Platform.drawAll()
     end
 end
 
+function Platform.clearAll()
+    for _, p in ipairs(ActivePlatforms) do
+        if p.physics and p.physics.body then
+            p.physics.body:destroy()
+        end
+        Platform.instances = {}
+        ActivePlatforms = {}
+    end
+end
+
 return Platform

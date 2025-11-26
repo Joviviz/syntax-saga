@@ -2,7 +2,7 @@ Player = {}
 
 function Player:load()
     -- Jogador
-    self.x = 100
+    self.x = 50
     self.y = 0
     self.width = 16
     self.height = 30 -- it was 32, 32 makes his height not being able to go under 2 blocks
@@ -272,6 +272,10 @@ function Player:respawn()
         self.health.current = self.health.max
         self.alive = true
     end
+end
+
+function Player:getY()
+    return self.y
 end
 
 return Player

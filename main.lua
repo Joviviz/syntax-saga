@@ -91,8 +91,14 @@ end
 
 function love.keypressed(key)
     if key == "escape" then
-        love.event.quit()
+        gameState = "menu"
+        clearLevel()
     end
+
+    if key == "r" then
+        clearLevel()
+    end
+
     if gameState ~= "menu" then
         Player:jump(key)
     end
@@ -101,17 +107,16 @@ end
 function love.mousepressed(x, y, button)
     if gameState == "menu" then
         local newState = Menu.mousepressed(x, y, button)
-        if newState == "fase1" then
-            local fase1 = require("fases.fase1")
-            loadLevel(fase1)
-            gameState = "fase1"
-        elseif newState == "fase2" then
-            local fase2 = require("fases.fase2")
-            loadLevel(fase2)
-            gameState = "fase2"
+
+        if newState and newState:match("^fase[1-5]$") then
+            local fase = require("fases." .. newState)
+            clearLevel()
+            loadLevel(fase)
+            gameState = newState
         end
     end
 end
+
 
 function beginContact(a, b, collision)
     if gameState ~= "menu" then
@@ -126,5 +131,15 @@ function endContact(a, b, collision)
     if gameState ~= "menu" then
         Player:endContact(a, b, collision)
         Button.endContact(a, b, collision)
+
     end
 end
+
+function clearLevel()
+    Spike.clearAll()
+    Box.clearAll()
+    Coin.clearAll()
+    Platform.clearAll()
+    Button.clearAll()
+end
+
