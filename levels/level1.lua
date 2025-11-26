@@ -1,5 +1,5 @@
-local fase3 = {
-    mapPath = "map/3.lua",
+local level1 = {
+    mapPath = "map/1.lua",
 
     spikes = {
         {x = 220, y = 327},
@@ -27,4 +27,4 @@ local fase3 = {
     },
 }
 
-return fase3
+return level1
