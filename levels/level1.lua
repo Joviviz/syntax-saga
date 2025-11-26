@@ -25,6 +25,10 @@ local level1 = {
     buttons = {
         {x = 540, y = 328, w = 64, h = 16},
     },
+
+    flag = {
+        {x = 300, y = 120},
+    },
 }
 
 return level1

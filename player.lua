@@ -271,6 +271,7 @@ function Player:respawn()
         self.physics.body:setPosition(self.startX, self.startY)
         self.health.current = self.health.max
         self.alive = true
+        
     end
 end
 

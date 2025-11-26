@@ -25,6 +25,10 @@ local level4 = {
     platforms = {
         { x = 560, y = 330, w = 64, h = 16 },
     },
+
+    flag = {
+        {x = 300, y = 150},
+    },
 }
 
 return level4

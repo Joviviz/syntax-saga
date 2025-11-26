@@ -50,6 +50,9 @@ function loadLevel(level)
 	for _, bt in ipairs(level.buttons) do
 		Button.new(bt.x, bt.y, bt.w, bt.h)
 	end
+	for _, f in ipairs(level.flag) do
+		Flag.new(f.x, f.y)
+	end
 end
 
 function love.load()
@@ -64,6 +67,7 @@ function love.update(dt)
 		Coin.updateAll(dt)
 		Box.updateAll(dt)
 		Spike.updateAll(dt)
+		Flag.updateAll(dt)
 		Button.updateAll(dt)
 		GUI.update(dt)
 		Platform.updateAll(dt)
@@ -86,6 +90,7 @@ function love.draw()
 		Coin.drawAll()
 		Box.drawAll()
 		Spike.drawAll()
+		Flag.drawAll()
 		Button.drawAll()
 		Platform.drawAll()
 		love.graphics.pop()
@@ -142,4 +147,5 @@ function clearLevel()
 	Coin.clearAll()
 	Platform.clearAll()
 	Button.clearAll()
+	Flag.clearAll()
 end

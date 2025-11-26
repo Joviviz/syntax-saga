@@ -11,8 +11,8 @@ function Flag.new(x, y)
     instance.x = x
     instance.y = y
 
-    local scaledWidth = Flag.width * Flag.scale
-    local scaledHeight = Flag.height * Flag.scale
+    local scaledWidth = Flag.width
+    local scaledHeight = Flag.height
 
     instance.physics={}
     instance.physics.body = love.physics.newBody(World, instance.x, instance.y, "static")
@@ -33,13 +33,26 @@ function Flag:updateAll(dt)
     end
 end
 
-function Flag:drawAll()
+function Flag:draw()
+    love.graphics.draw(
+        self.img,
+        self.x,
+        self.y,
+        0,
+        Flag.scale,
+        Flag.scale,
+        self.width / 2,
+        self.height / 2
+    )
+end
+
+function Flag.drawAll()
     for i, instance in ipairs(ActiveFlags) do
         instance:draw()
     end
 end
 
-function Flag:clearAll()
+function Flag.clearAll()
     for _, instance in ipairs(ActiveFlags) do
         if instance.physics and instance.physics.body then
             instance.physics.body:destroy()
