@@ -131,4 +131,14 @@ function Button.getTotalBoxCount()
     return total
 end
 
+function Button.clearAll()
+    for _, bt in ipairs(ActiveButtons) do
+        if bt.physics and bt.physics.body then
+            bt.physics.body:destroy()
+        end
+        Button.instances = {}
+        ActiveButtons = {}
+    end
+end
+
 return Button

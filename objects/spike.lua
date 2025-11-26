@@ -73,6 +73,17 @@ function Spike.drawAll()
     end
 end
 
+function Spike.clearAll()
+    for _, s in ipairs(ActiveSpikes) do
+        if s.physics and s.physics.body then
+            s.physics.body:destroy()
+        end
+        Spike.instances = {}
+        ActiveSpikes = {}
+    end
+end
+
+
 function Spike.beginContact(a, b, collision)
     for i, instance in ipairs(ActiveSpikes) do
         if a == instance.physics.fixture or b == instance.physics.fixture then

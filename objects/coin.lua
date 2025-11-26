@@ -55,7 +55,6 @@ function Coin.drawAll()
     end
 end
 
--- Funcoes de contato com jogador
 function Coin.beginContact(a, b, collision)
     for i, instance in ipairs(ActiveCoins) do
         if a == instance.physics.fixture or b == instance.physics.fixture then
@@ -74,9 +73,18 @@ function Coin:checkRemove()
     end
 end
 
+function Coin.clearAll()
+    for _, c in ipairs(ActiveCoins) do
+        if c.physics and c.physics.body then
+            c.physics.body:destroy()
+        end
+        Coin.instances = {}
+        ActiveCoins = {}
+    end
+end
+
+
 function Coin:remove()
-    -- loopa na tabela dos coins ativos e remove o coin
-    -- que foi tocado, escolhendo seu index
     for i, instance in ipairs(ActiveCoins) do
         if instance == self then
             table.remove(ActiveCoins, i)

@@ -70,6 +70,18 @@ function Box.drawAll()
     love.graphics.setColor(1, 1, 1)
 end
 
+function Box.clearAll()
+    for _, b in ipairs(ActiveBoxes) do
+        if b.body then
+            b.body:destroy()
+        end
+        
+        Box.instances = {}
+        ActiveBoxes = {}
+    end
+end
+
+
 -- 🔹 Detectar contato com chão ou player
 function Box.beginContact(a, b)
     local boxFixture = (a:getUserData() == "Box") and a or ((b:getUserData() == "Box") and b or nil)
