@@ -73,7 +73,7 @@ function Player:update(dt)
     self:animate(dt)
     self:setDirection()
     self:setState()
-    self:respawn()
+    -- self:respawn()
 end
 
 function Player:draw()

@@ -71,6 +71,21 @@ function love.update(dt)
 		Button.updateAll(dt)
 		GUI.update(dt)
 		Platform.updateAll(dt)
+
+		-- Bloco de Resetar a fase 
+        if not Player.alive then
+            -- 1. montar caminho pra folder do level
+            local levelPath = "levels." .. gameState 
+            
+            -- 2. requerir o levelPath
+            local levelData = require(levelPath)
+            
+            -- 3. limpar
+            clearLevel()
+            loadLevel(levelData)
+            
+            -- 4. loadLevel() chama Player:load(), que alive = true
+        end
 	end
 end
 
