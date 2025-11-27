@@ -1,4 +1,4 @@
-local fase2 = {
+local level2 = {
     mapPath = "map/2.lua",
 
     spikes = {
@@ -25,6 +25,10 @@ local fase2 = {
     platforms = {
         {x = 560, y = 330, w = 64, h = 16},
     },
+    
+    flag = {
+        {x = 300, y = 150},
+    },
 }
 
-return fase2
+return level2

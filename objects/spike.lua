@@ -1,11 +1,11 @@
-Spike = {img = love.graphics.newImage("assets/spike.png")}
+local Spike = {img = love.graphics.newImage("assets/spike.png")}
 Spike.__index = Spike
 
 Spike.width = Spike.img:getWidth()
 Spike.height = Spike.img:getHeight()
 Spike.scale = 1 -- valor padrão, pode ser sobrescrito no main.lua
 
-ActiveSpikes = {}
+local ActiveSpikes = {}
 local Player = require("player")
 
 function Spike.new(x, y)

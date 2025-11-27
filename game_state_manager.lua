@@ -18,11 +18,11 @@ GSM.states = {
         end
     },
 
-    fase1 = { file = "fases.fase1" },
-    fase2 = { file = "fases.fase2" },
-    fase3 = { file = "fases.fase3" },
-    fase4 = { file = "fases.fase4" },
-    fase5 = { file = "fases.fase5" },
+    level1 = { file = "levels.level1" },
+    level2 = { file = "levels.level2" },
+    level3 = { file = "levels.level3" },
+    level4 = { file = "levels.level4" },
+    level5 = { file = "levels.level5" },
 }
 
 GSM.current = "menu"
@@ -35,9 +35,9 @@ function GSM.loadState(name)
         return
     end
 
-    local faseData = require(GSM.states[name].file)
+    local levelData = require(GSM.states[name].file)
     if loadLevel then
-        loadLevel(faseData)
+        loadLevel(levelData)
     end
 end
 

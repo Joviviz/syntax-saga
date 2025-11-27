@@ -1,9 +1,10 @@
-Coin = { img = love.graphics.newImage("assets/coin.png") }
+local Coin = { img = love.graphics.newImage("assets/coin.png") }
 Coin.__index = Coin
 Coin.width = Coin.img:getWidth()
 Coin.height = Coin.img:getHeight()
 
-ActiveCoins = {}
+local ActiveCoins = {}
+local Player = require("player")
 
 function Coin.new(x, y)
     local instance = setmetatable({}, Coin)
@@ -91,3 +92,5 @@ function Coin:remove()
         end
     end
 end
+
+return Coin

@@ -1,4 +1,4 @@
-Player = {}
+local Player = {}
 
 function Player:load()
     -- Jogador
@@ -33,6 +33,9 @@ function Player:load()
 
     -- Moedas
     self.coins = 0
+
+    -- Completar Fase
+    self.levelFinished = false
 
     -- Configs
     self.physics = {}
@@ -73,7 +76,7 @@ function Player:update(dt)
     self:animate(dt)
     self:setDirection()
     self:setState()
-    self:respawn()
+    -- self:respawn()
 end
 
 function Player:draw()
@@ -271,11 +274,21 @@ function Player:respawn()
         self.physics.body:setPosition(self.startX, self.startY)
         self.health.current = self.health.max
         self.alive = true
+        
     end
+end
+
+function Player:completeLevel()
+    self.levelFinished = true
+    self.grounded = true
 end
 
 function Player:getY()
     return self.y
+end
+
+function Player:getX()
+    return self.x
 end
 
 return Player
