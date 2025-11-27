@@ -86,6 +86,31 @@ function love.update(dt)
             
             -- 4. loadLevel() chama Player:load(), que alive = true
         end
+
+		-- Avancar fase
+		if Player.levelFinished then
+
+			-- descobrir nmr da fase
+			local currentLevelNumber = tonumber(string.match(gameState, "%d+"))
+
+			-- proxima fase
+			local nextLevelNumber = currentLevelNumber + 1
+
+			if nextLevelNumber <= 5 then
+				local nextLevelName = "level" .. nextLevelNumber
+				local nextLevelPath = "levels." .. nextLevelName
+
+				-- carregar proxima fase
+				local levelData = require(nextLevelPath)
+				gameState = nextLevelName
+
+				clearLevel()
+				loadLevel(levelData)
+			else
+				gameState = "menu"
+				clearLevel()
+			end
+		end
 	end
 end
 
@@ -144,6 +169,7 @@ function beginContact(a, b, collision)
 	if gameState ~= "menu" then
 		if Coin.beginContact(a, b, collision) then return end
 		if Spike.beginContact(a, b, collision) then return end
+	if Flag.beginContact(a, b, collision) then return end
 		Player:beginContact(a, b, collision)
 		Button.beginContact(a, b, collision)
 	end

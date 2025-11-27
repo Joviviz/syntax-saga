@@ -66,7 +66,7 @@ function Flag.beginContact(a, b, collision)
     for i, instance in ipairs(ActiveFlags) do
         if a == instance.physics.fixture or b == instance.physics.fixture then
             if a == Player.physics.fixture or b == Player.physics.fixture then
-                Player:changeLevel()
+                Player:completeLevel()
                 return true
             end
         end        

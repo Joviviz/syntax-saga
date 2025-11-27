@@ -34,6 +34,9 @@ function Player:load()
     -- Moedas
     self.coins = 0
 
+    -- Completar Fase
+    self.levelFinished = false
+
     -- Configs
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, "dynamic")
@@ -273,6 +276,11 @@ function Player:respawn()
         self.alive = true
         
     end
+end
+
+function Player:completeLevel()
+    self.levelFinished = true
+    self.grounded = true
 end
 
 function Player:getY()
