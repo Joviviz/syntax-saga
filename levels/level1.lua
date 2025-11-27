@@ -21,6 +21,12 @@ local level1 = {
     platforms = {
         {x = 600, y = 200, w = 100, h = 16},
     },
+    whilePlatforms = {
+        -- x, y: posição inicial
+        -- w, h: tamanho
+        -- dist: quantos pixels ela anda pra direita antes de voltar
+        { x = 200, y = 300, w = 100, h = 16, dist = 300 },
+    },
 
     buttons = {
         {x = 540, y = 328, w = 64, h = 16},

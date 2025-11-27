@@ -8,12 +8,13 @@ local GUI = require("gui")
 
 
 local Player = require("player")
-local Coin = require("objects/coin")
-local Spike = require("objects/spike")
 local Box = require("objects/box")
 local Button = require("objects/button")
-local Platform = require("objects/platform")
+local Coin = require("objects/coin")
 local Flag = require("objects/flag")
+local Platform = require("objects/platform")
+local Spike = require("objects/spike")
+local WhilePlatform = require("objects/whilePlatform")
 
 love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -53,6 +54,11 @@ function loadLevel(level)
 	for _, f in ipairs(level.flag) do
 		Flag.new(f.x, f.y)
 	end
+	if level.whilePlatforms then
+		for _, wp in ipairs(level.whilePlatforms) do
+			WhilePlatform.new(wp.x, wp.y, wp.w, wp.h, wp.dist)
+		end
+	end
 end
 
 function love.load()
@@ -71,6 +77,7 @@ function love.update(dt)
 		Button.updateAll(dt)
 		GUI.update(dt)
 		Platform.updateAll(dt)
+		WhilePlatform.updateAll(dt)
 
 		-- Bloco de Resetar a fase 
         if not Player.alive then
@@ -133,6 +140,7 @@ function love.draw()
 		Flag.drawAll()
 		Button.drawAll()
 		Platform.drawAll()
+		WhilePlatform.drawAll()
 		love.graphics.pop()
 	end
 end
