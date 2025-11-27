@@ -94,7 +94,7 @@ function GUI:displayLevelHint()
 
     -- Fase 1
     if gameState == "level1" then
-        text = "se caixas == 1 --> plataformaSobe()"
+        text = "se botao.recebeCaixa() --> plataformaSobe()"
 
     -- Fase 2
     elseif gameState == "level2" then
@@ -102,15 +102,15 @@ function GUI:displayLevelHint()
 
     -- Fase 3
     elseif gameState == "level3" then
-        text = "se caixa1 e caixa2 --> plataformaSobe()"
+        text = "se botao1.recebeCaixa() ou botao2.recebeCaixa() --> plataformaSobe()"
 
     -- Fase 4
     elseif gameState == "level4" then
-        text = "se botao1.recebeCaixa() ou botao2.recebeCaixa() --> plataformaSobe()"
+        text = "se botao1.recebeCaixa() e botao2.recebeCaixa() --> plataformaSobe()"
 
     -- Fase 5
     elseif gameState == "level5" then
-        text = "enquanto caixa --> plataformaGira()"
+        text = "enquanto caixa --> plataformaMove()"
     end
 
     -- Se não estiver em fase válida, sai
