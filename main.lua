@@ -197,4 +197,5 @@ function clearLevel()
 	Platform.clearAll()
 	Button.clearAll()
 	Flag.clearAll()
+	WhilePlatform.clearAll()
 end

@@ -1,5 +1,6 @@
 local WhilePlatform = {}
 local Button = require("objects/button")
+-- local Player = require("player") -- Não parece ser usado aqui, podemos remover se quiser
 
 WhilePlatform.__index = WhilePlatform
 
@@ -23,17 +24,33 @@ function WhilePlatform.new(x, y, width, height, distance)
 
     -- Fisicas
     instance.physics = {}
-    instance.physics.body = love.physics.newBody(World, x, y, "kinematic")
-    instance.physics.shape = love.physics.newRectangleShape(width, height)
-    instance.physics.fixture = love.physics.newFixture(instance.physics.body, instance.physics.shape)
-    instance.physics.fixture:setFriction(1)
+    
+    -- garante que o World existe
+    if World then
+        instance.physics.body = love.physics.newBody(World, x, y, "kinematic")
+        instance.physics.shape = love.physics.newRectangleShape(width, height)
+        
+        instance.physics.fixture = love.physics.newFixture(instance.physics.body, instance.physics.shape, 1)
+        
+        if instance.physics.fixture then
+            instance.physics.fixture:setFriction(1)
+            instance.physics.fixture:setUserData("WhilePlatform")
+        else
+            print("ERRO: Falha ao criar fixture para WhilePlatform em " .. x .. "," .. y)
+        end
+    else
+        print("ERRO: World nao existe ao criar WhilePlatform")
+    end
 
     table.insert(ActiveWhilePlatforms, instance)
     return instance
 end
 
 function WhilePlatform:update(dt)
-    local boxCount = Button.getTotalBoxCount() -- count do botao
+    -- Se o corpo fisico nao existir
+    if not self.physics.body then return end
+
+    local boxCount = Button.getTotalBoxCount()
 
     -- velocidade atual baseado nas caixa
     local currentSpeed = self.baseSpeed + (boxCount * self.speedPerBox)
@@ -53,6 +70,8 @@ function WhilePlatform:update(dt)
 end
 
 function WhilePlatform:draw()
+    if not self.physics.body then return end
+
     love.graphics.setColor(0.8, 0.5, 0.2)
     local x, y = self.physics.body:getPosition()
     love.graphics.rectangle("fill", x - self.width / 2, y - self.height / 2, self.width, self.height)
