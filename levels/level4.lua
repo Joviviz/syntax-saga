@@ -22,13 +22,15 @@ local level4 = {
 
     buttons = {
         { x = 400, y = 335, w = 64, h = 16 },
+    },
+
+    buttons2 = {
         { x = 240, y = 335, w = 64, h = 16 },
     },
 
-    platforms = {
+    platforms3 = {
         { x = 560, y = 330, w = 64, h = 16 },
     },
-   
 }
 
 return level4

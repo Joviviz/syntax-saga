@@ -10,7 +10,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 3,
-  nextobjectid = 6,
+  nextobjectid = 19,
   properties = {},
   tilesets = {
     {
@@ -90,14 +90,14 @@ return {
       },
       objects = {
         {
-          id = 1,
+          id = 7, 
           name = "",
           type = "",
           shape = "rectangle",
-          x = 0.0652174,
-          y = 143.978,
-          width = 47.926,
-          height = 224.031,
+          x = 0.03125,
+          y = 144.004,
+          width = 127.965, 
+          height = 15.9883,
           rotation = 0,
           visible = true,
           properties = {
@@ -105,14 +105,14 @@ return {
           }
         },
         {
-          id = 2,
+          id = 8, 
           name = "",
           type = "",
           shape = "rectangle",
-          x = 47.9178,
-          y = 143.978,
-          width = 80.0861,
-          height = 16.0217,
+          x = -0.00757576,
+          y = 287.978,
+          width = 128.008, 
+          height = 16.0182,
           rotation = 0,
           visible = true,
           properties = {
@@ -120,14 +120,14 @@ return {
           }
         },
         {
-          id = 3,
+          id = 14, 
           name = "",
           type = "",
           shape = "rectangle",
-          x = 128.011,
-          y = 207.988,
-          width = 95.9508,
-          height = 32.0601,
+          x = 0,
+          y = 304.164,
+          width = 48,
+          height = 63.8281,
           rotation = 0,
           visible = true,
           properties = {
@@ -135,14 +135,14 @@ return {
           }
         },
         {
-          id = 4,
+          id = 16, 
           name = "",
           type = "",
           shape = "rectangle",
-          x = 47.9844,
-          y = 287.938,
-          width = 80.0279,
-          height = 16.0903,
+          x = -0.015625,
+          y = 159.953,
+          width = 48,
+          height = 128.031,
           rotation = 0,
           visible = true,
           properties = {
@@ -150,14 +150,29 @@ return {
           }
         },
         {
-          id = 5,
+          id = 17, 
           name = "",
           type = "",
           shape = "rectangle",
-          x = 592,
-          y = 144.058,
-          width = 48.0724,
-          height = 223.913,
+          x = 127.957,
+          y = 207.913,
+          width = 96.0435,
+          height = 32.087,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["collidable"] = true
+          }
+        },
+        {
+          id = 18, 
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 591.956,
+          y = 143.956,
+          width = 48.0667,
+          height = 224.111,
           rotation = 0,
           visible = true,
           properties = {
