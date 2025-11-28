@@ -2,39 +2,34 @@ local level1 = {
     mapPath = "map/1.lua",
 
     spikes = {
-        {x = 220, y = 327},
-        {x = 195, y = 327},
-        {x = 170, y = 327},
+        { x = 75, y = 327 },
+        { x = 100, y = 327 },
+        { x = 125, y = 327 },
     },
 
     boxes = {
-        {x = 510, y = 35},
-        {x = 600, y = 35},
+        { x = 225, y = 50 },
+        { x = 275, y = 50 },
     },
 
     coins = {
-        {x = 300, y = 200},
-        {x = 400, y = 200},
-        {x = 500, y = 100},
-    },
-
-    platforms = {
-        {x = 600, y = 200, w = 100, h = 16},
-    },
-    whilePlatforms = {
-        -- x, y: posição inicial
-        -- w, h: tamanho
-        -- dist: quantos pixels ela anda pra direita antes de voltar
-        { x = 200, y = 300, w = 100, h = 16, dist = 300 },
-    },
-
-    buttons = {
-        {x = 540, y = 328, w = 64, h = 16},
+        { x = 10, y = 300 },
+        { x = 30, y = 300 },
+        { x = 50, y = 300 },
     },
 
     flag = {
-        {x = 300, y = 120},
+        { x = 615, y = 145 },
     },
+
+    buttons = {
+        { x = 464, y = 360, w = 64, h = 16 },
+    },
+
+    platforms = {
+        { x = 560, y = 330, w = 64, h = 16 },
+    },
+
 }
 
 return level1

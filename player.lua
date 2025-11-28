@@ -287,4 +287,8 @@ function Player:getY()
     return self.y
 end
 
+function Player:getX()
+    return self.x
+end
+
 return Player
