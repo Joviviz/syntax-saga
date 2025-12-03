@@ -1,6 +1,5 @@
 local Platform = {}
 local Button = require("objects/button")
-local Player = require("player")
 
 Platform.__index = Platform
 

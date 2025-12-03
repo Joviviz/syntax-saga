@@ -8,15 +8,16 @@ local GUI = require("gui")
 
 
 local Player = require("player")
-local Coin = require("objects/coin")
-local Spike = require("objects/spike")
 local Box = require("objects/box")
 local Button = require("objects/button")
-local Platform = require("objects/platform")
 local Button2 = require("objects/button2")
+local Coin = require("objects/coin")
+local Flag = require("objects/flag")
+local Platform = require("objects/platform")
 local Platform2 = require("objects/platform2")
 local Platform3 = require("objects/platform3")
-local Flag = require("objects/flag")
+local Spike = require("objects/spike")
+local WhilePlatform = require("objects/whilePlatform")
 
 love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -78,6 +79,14 @@ function loadLevel(level)
 			Platform3.new(p.x, p.y, p.w, p.h)
 		end
 	end
+	for _, f in ipairs(level.flag) do
+		Flag.new(f.x, f.y)
+	end
+	if level.whilePlatforms then
+		for _, wp in ipairs(level.whilePlatforms) do
+			WhilePlatform.new(wp.x, wp.y, wp.w, wp.h, wp.dist)
+		end
+	end
     if level.flag then
         for _, f in ipairs(level.flag) do
             Flag.new(f.x, f.y)
@@ -108,32 +117,41 @@ function love.update(dt)
 		Button.updateAll(dt)
 		Button2.updateAll(dt)
 		Platform2.updateAll(dt)
+		Platform3.updateAll(dt)
 		GUI.update(dt)
 		Platform.updateAll(dt)
-		Platform3.updateAll(dt)
+		WhilePlatform.updateAll(dt)
 
 
+		-- Bloco de Resetar a fase 
         if not Player.alive then
-
+            -- 1. montar caminho pra folder do level
             local levelPath = "levels." .. gameState 
             
+            -- 2. requerir o levelPath
             local levelData = require(levelPath)
             
+            -- 3. limpar
             clearLevel()
             loadLevel(levelData)
             
+            -- 4. loadLevel() chama Player:load(), que alive = true
         end
 
+		-- Avancar fase
 		if Player.levelFinished then
 
+			-- descobrir nmr da fase
 			local currentLevelNumber = tonumber(string.match(gameState, "%d+"))
 
+			-- proxima fase
 			local nextLevelNumber = currentLevelNumber + 1
 
 			if nextLevelNumber <= 5 then
 				local nextLevelName = "level" .. nextLevelNumber
 				local nextLevelPath = "levels." .. nextLevelName
 
+				-- carregar proxima fase
 				local levelData = require(nextLevelPath)
 				gameState = nextLevelName
 
@@ -166,6 +184,7 @@ function love.draw()
 		Flag.drawAll()
 		Button.drawAll()
 		Platform.drawAll()
+		WhilePlatform.drawAll()
 		Button2.drawAll()
 		Platform2.drawAll()
 		Platform3.drawAll()
@@ -230,9 +249,10 @@ function clearLevel()
 	Box.clearAll()
 	Coin.clearAll()
 	Platform.clearAll()
+	WhilePlatform.clearAll()
 	Button.clearAll()
 	Button2.clearAll()
 	Platform2.clearAll()
-	Flag.clearAll()
 	Platform3.clearAll()
+	Flag.clearAll()
 end

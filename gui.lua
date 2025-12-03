@@ -110,7 +110,7 @@ function GUI:displayLevelHint()
 
     -- Fase 5
     elseif gameState == "level5" then
-        text = "enquanto caixa --> plataformaMove()"
+        text = "enquanto botao.temCaixa() --> plataformaMove()"
     end
 
     -- Se não estiver em fase válida, sai

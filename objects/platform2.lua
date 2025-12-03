@@ -56,7 +56,7 @@ function Platform2.updateAll(dt)
 end
 
 function Platform2.drawAll()
-    love.graphics.setColor(0.3, 0.8, 0.3)
+    love.graphics.setColor(0.5, 0.5, 0.8)
     for _, p in ipairs(ActivePlatforms2) do
         local x, y = p.physics.body:getPosition()
         love.graphics.rectangle("fill", x - p.width/2, y - p.height/2, p.width, p.height)
